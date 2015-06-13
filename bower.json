@@ -1,0 +1,19 @@
+{
+  "name": "gopherchat",
+  "version": "0.0.0",
+  "authors": [
+    "Charles <whitfield.cw@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.3"
+  }
+}
