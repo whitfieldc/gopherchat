@@ -5,14 +5,29 @@
   <title>Gopherchat</title>
   <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
   <link rel="import" href="elements/builtin.html">
+  <link rel="import" href="elements/gopher-login.html">
 </head>
 
 <body class="fullbleed layout vertical">
-  <paper-header-panel class="flex">
-    <paper-toolbar>
-    <div>Gophertest</div>
-    </paper-toolbar>
-  </paper-header-panel>
+<!--   <paper-drawer-panel>
+    <paper-header-panel drawer>
+      <paper-toolbar>Login</paper-toolbar>
+    </paper-header-panel> -->
+    <paper-header-panel> <!-- main -->
+      <paper-toolbar>
+        <div>Gophertest</div>
+        <span flex></span>
+      </paper-toolbar>
+      <div class="container">
+        <iron-pages selected="0">
+          <div>Hello
+            <gopher-login></gopher-login>
+          </div>
+          <div>Goodbye</div>
+        </iron-pages>
+      </div>
+    </paper-header-panel>
+  <!-- </paper-drawer-panel> -->
 </body>
 
 </html>

@@ -1,0 +1,21 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gopher-login.html">
+
+<dom-module id="gopher-chat">
+  <template>
+    <p>{{currentUser.github.username}}</p>
+    <gopher-login user="{{currentUser}}"></gopher-login>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'gopher-chat',
+
+    properties: {
+      currentUser: {
+        type: Object,
+        value: null
+      }
+    }
+  })
+</script>

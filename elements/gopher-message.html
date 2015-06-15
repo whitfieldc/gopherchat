@@ -1,0 +1,12 @@
+    <firebase-collection
+      id="gopherMessages"
+      limit-to-first="20"
+      location="https://gopherchat.firebaseio.com/messages"
+      data="{{messages}}"></firebase-collection>
+    <template is="dom-repeat" items="[[messages]]" as="message">
+      <h4>you have a phone call</h4>
+    </template>
+    <form is="iron-form" id="form" on-submit="sendMessage">
+      <paper-input id="messageText" label="Message" hidden$="{{computeLogoutHidden(statusKnown, user)}}"></paper-input>
+      <paper-button raised><iron-icon icon="arrow-forward"></iron-icon>Send</paper-button>
+    </form>

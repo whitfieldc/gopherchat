@@ -1,0 +1,136 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-auth.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<dom-module id="gopher-login">
+  <template>
+    <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}" location="https://gopherchat.firebaseio.com" provider="github" on-error="errorHandler"></firebase-auth>
+    <firebase-collection
+      id="gopherMessages"
+      limit-to-first="20"
+      location="https://gopherchat.firebaseio.com/messages"
+      data="{{messages}}"></firebase-collection>
+    <template is="dom-repeat" items="[[messages]]" as="message">
+      <h4>[[message.content]]</h4>
+    </template>
+    <form is="iron-form" id="form" on-submit="sendMessage">
+      <paper-input id="messageText" label="Message" hidden$="{{computeLogoutHidden(statusKnown, user)}}"></paper-input>
+      <paper-button raised><iron-icon icon="arrow-forward"></iron-icon>Send</paper-button>
+    </form>
+
+
+
+    <button on-tap="login" hidden$="{{computeLoginHidden(statusKnown, user)}}">Login</button>
+    <button on-tap="logout" hidden$="{{computeLogoutHidden(statusKnown, user)}}">Logout</button>
+
+    <h3>Login status:</h3>
+    <p>{{computeLoginStatus(statusKnown, user)}}</p>
+
+    <h3>User ID:</h3>
+    <pre>{{user.github.username}}</pre>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'gopher-login',
+
+    properties: {
+      provider: {
+        type: String,
+        value: 'anonymous'
+      },
+
+      message: {
+        type: String,
+        value: ''
+      },
+
+      email: {
+        type: String,
+        value: ''
+      },
+
+      password: {
+        type: String,
+        value: ''
+      },
+
+      user: {
+        type: Object,
+        value: null,
+        notify: true,
+      },
+
+      statusKnown: {
+        type: Boolean
+      }
+    },
+
+    sendMessage: function() {
+      // debugger
+      console.log(this.$.gopherMessages)
+      // console.log(user)
+      var content = this.$.messageText.value;
+      var message = {
+        // author: user,
+        content: content
+      };
+      this.$.gopherMessages.add(message);
+      console.log(content);
+    },
+
+    login: function() {
+      var params;
+
+      try {
+        params = JSON.parse(this.params);
+      } catch (e) {
+        params = null;
+      }
+
+      this.$.firebaseLogin.login(params);
+    },
+
+    logout: function() {
+      this.$.firebaseLogin.logout();
+    },
+
+    errorHandler: function(e) {
+      this.message = 'Error: ' + e.detail.message;
+    },
+
+
+    computeLoginHidden: function(statusKnown, user) {
+      return !statusKnown || !!user;
+    },
+
+    computeLogoutHidden: function(statusKnown, user) {
+      return !statusKnown || !user;
+    },
+
+    computeLoginStatus: function(statusKnown, user) {
+      if (statusKnown && user) {
+        return 'Logged in';
+      }
+
+      if (statusKnown) {
+        return 'Logged out';
+      }
+
+      return 'Unknown (checking status...)';
+    }
+  });
+</script>
