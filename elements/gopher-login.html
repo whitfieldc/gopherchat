@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       location="https://gopherchat.firebaseio.com/messages"
       data="{{messages}}"></firebase-collection>
     <template is="dom-repeat" items="[[messages]]" as="message">
-      <h4>[[message.author.github.username]]</h4><h4>[[message.content]]</h4>
+      <paper-item><p>[[message.author.github.username]]</p><iron-icon icon="chevron-right"></iron-icon> <p>[[message.content]]</p></paper-item>
     </template>
     <form is="iron-form" id="form" on-submit="sendMessage">
       <paper-input id="messageText" label="Message" hidden$="{{computeLogoutHidden(statusKnown, user)}}"></paper-input>
