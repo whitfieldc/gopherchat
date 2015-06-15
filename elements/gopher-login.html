@@ -24,14 +24,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       location="https://gopherchat.firebaseio.com/messages"
       data="{{messages}}"></firebase-collection>
     <template is="dom-repeat" items="[[messages]]" as="message">
-      <h4>[[message.content]]</h4>
+      <h4>[[message.author.github.username]]</h4><h4>[[message.content]]</h4>
     </template>
     <form is="iron-form" id="form" on-submit="sendMessage">
       <paper-input id="messageText" label="Message" hidden$="{{computeLogoutHidden(statusKnown, user)}}"></paper-input>
-      <paper-button raised><iron-icon icon="arrow-forward"></iron-icon>Send</paper-button>
+<!--       <paper-button raised><iron-icon icon="arrow-forward"></iron-icon>Send</paper-button> -->
     </form>
-
-
 
     <button on-tap="login" hidden$="{{computeLoginHidden(statusKnown, user)}}">Login</button>
     <button on-tap="logout" hidden$="{{computeLogoutHidden(statusKnown, user)}}">Logout</button>
@@ -81,15 +79,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     sendMessage: function() {
       // debugger
+      var user = this.user
       console.log(this.$.gopherMessages)
       // console.log(user)
       var content = this.$.messageText.value;
       var message = {
-        // author: user,
+        author: user,
         content: content
       };
       this.$.gopherMessages.add(message);
-      console.log(content);
+      this.$.messageText.value = "";
+
     },
 
     login: function() {
