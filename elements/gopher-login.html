@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-auth id="firebaseLogin" user="{{user}}" status-known="{{statusKnown}}" location="https://gopherchat.firebaseio.com" provider="github" on-error="errorHandler"></firebase-auth>
     <firebase-collection
       id="gopherMessages"
-      limit-to-first="20"
+      limit-to-last="10"
       location="https://gopherchat.firebaseio.com/messages"
       data="{{messages}}"></firebase-collection>
     <template is="dom-repeat" items="[[messages]]" as="message">
